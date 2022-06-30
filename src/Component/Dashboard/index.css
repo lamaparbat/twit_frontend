@@ -1,0 +1,24 @@
+.homepage {
+  height: 100vh;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+
+.form {
+  height: 450px;
+  width: 390px;
+  background-color: rgb(29, 29, 29);
+  box-shadow: 1px 0px 5px 2px rgba(59, 59, 59, 0.75);
+  -webkit-box-shadow: 1px 0px 5px 2px rgba(59, 59, 59, 0.75);
+  -moz-box-shadow: 1px 0px 5px 2px rgba(59, 59, 59, 0.75);
+}
+
+#separator {
+  color: rgb(195, 195, 195);
+}
+
+#logo {
+  font-size: 100px;
+}
+
+
