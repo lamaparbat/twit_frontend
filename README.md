@@ -1,70 +1,83 @@
-# Getting Started with Create React App
+## Twitter Login Backend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Stack used:
+1. Node js (Express)
+2. MongoDB + Mongoose
+3. JWT + passportjs
 
-## Available Scripts
 
-In the project directory, you can run:
 
-### `npm start`
+## API ENDPOINTS
+1. Signup || Registration
+```
+POST : /twitter/signup
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Payload: {
+   username:String,
+   password:String
+}
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Success Response:   res.status(200).send({ message: "User registered successfully !!" });
+Failure Response: res.status(500).send({ message: "Failed to registered user !!" });
 
-### `npm test`
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Login
+```
+POST : /twitter/login (Passportjs -> localStrategy)
 
-### `npm run build`
+Payload: {
+   username:String,
+   password:String
+}
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Success Response:   res.status(200).send({
+                        token: auth.generateToken1(req.user.username, req.user.password),
+                        message: "Login successfully !!"
+                     });
+                     
+Failure Response: res.status(500).send({ message: "Failed to registered user !!" });
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Login with twitter (Firebase auth)
+```
+POST : /twitter/socialAuth
 
-### `npm run eject`
+Payload: {
+   username:String
+}
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Success Response:   res.status(200).send({
+                        token: auth.generateToken1(req.user.username, req.user.password),
+                        message: "Login successfully !!"
+                     });
+                     
+Failure Response: res.status(500).send({ message: "Failed to login !!" });
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+4. Verify token
+```
+GET : /twitter/validateCache
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Headers:  { Authorization: `Bearer ${access_token}` }
 
-## Learn More
+Success Response:   res.status(200).send("User verified !!");
+                     
+Failure Response: res.status(404).send({ message: "Token doesnt exist !!" }); || res.status(404).send({ message: "Session Timeout !!" });
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+5. Logout
+```
+GET : /twitter/logout
 
-### Code Splitting
+Headers:  { Authorization: `Bearer ${access_token}` }
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Success Response:    res.status(200).send("Logout succesfully !!");
+                     
+Failure Response: res.status(500).send("SERVER ERROR !!")
 
-### Analyzing the Bundle Size
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
